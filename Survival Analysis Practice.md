@@ -56,16 +56,15 @@ summary(m1)
 #"local" is observed not significant (0.55,1.05)
 summary(m_full)
 #"local" is significant in the full model (0.44,0.89)
-
-# Model selection(backwards)
+#Model selection
 step(m_full)
-# Shows that no variables is deleted
+#Shows that no variable is deleted
 
 #checking the proportional hazards assumption
 cox.zph(m_full)
 #There does not appear to be any major cause for concern
 #regarding the proportional hazards assumption
-#Only ¡®resect75¡¯ and ¡®male¡¯ may need to stratify
+#Only "resect75" and "male" may need to stratify
 m_strat <- coxph(formula=Surv(weeks,event)~local+treat+
 strata(resect75)+age+interval+karn+race+strata(male)+nitro+
 as.factor(path)+grade,data=tumourC)
