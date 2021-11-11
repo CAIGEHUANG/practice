@@ -10,20 +10,15 @@ surv <- Surv(weeks,event)
 plot(survfit(surv~1), xlab='weeks after procedure',
      ylab='survivals')
 summary(survfit(surv~1))
-#Mortality is very high in the first year following procedure
-#Approximately 80% die within the first year
-#Mortality is slower after this
+#Mortality is very high in the first year following procedure,approximately 80% die within the first year. Mortality is slower after this
 
-#looking at the variable of our interst
-#local radiation vs whole brain radiation
+#looking at the variable of our interst, local radiation vs whole brain radiation
 surv_bylocal <- survfit(surv~local)
 summary(surv_bylocal)
-#The result shows that patients with local radiation had better
-#median survival time
+#The result shows that patients with local radiation had better median survival time
 plot(surv_bylocal,col=c('red','blue'), 
      xlab='weeks after procedure',ylab='survival')
-#The red line denotes whole-brain radiation 
-#and the blue line represents local radiation
+#The red line denotes whole-brain radiation and the blue line represents local radiation
 #Seems that local radiation leads to better survival
 
 #Use Log rank test to confirm, state the hypothesis:
@@ -58,9 +53,10 @@ m_full <- with(tumourC,
 m1 <- with(tumourC,
            coxph(Surv(weeks,event)~local))
 summary(m1)
-#¡®local¡¯ is observed not significant (0.55,1.05)
+#"local" is observed not significant (0.55,1.05)
 summary(m_full)
-#¡®local¡¯ is significant in the full model (0.44,0.89)
+#"local" is significant in the full model (0.44,0.89)
+
 # Model selection(backwards)
 step(m_full)
 # Shows that no variables is deleted
@@ -69,7 +65,7 @@ step(m_full)
 cox.zph(m_full)
 #There does not appear to be any major cause for concern
 #regarding the proportional hazards assumption
-#Only ¡®resect75¡¯ and ¡®male¡¯ may need to stratify
+#Only Â¡Â®resect75Â¡Â¯ and Â¡Â®maleÂ¡Â¯ may need to stratify
 m_strat <- coxph(formula=Surv(weeks,event)~local+treat+
 strata(resect75)+age+interval+karn+race+strata(male)+nitro+
 as.factor(path)+grade,data=tumourC)
