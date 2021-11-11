@@ -7,26 +7,22 @@ head(tumour)
 #plot overall Kaplan-Meier curves
 attach(tumour)
 surv <- Surv(weeks,event)
-plot(survfit(surv~1), xlab='weeks after procedure',
-     ylab='survivals')
+plot(survfit(surv~1), xlab='weeks after procedure',ylab='survivals')
 summary(survfit(surv~1))
-#Mortality is very high in the first year following procedure
-#Approximately 80% die within the first year
+#Mortality is very high in the first year following procedure, approximately 80% die within the first year
 #Mortality is slower after this
 
 #looking at the variable of our interst
 #local radiation vs whole brain radiation
 surv_bylocal <- survfit(surv~local)
 summary(surv_bylocal)
-#The result shows that patients with local radiation had better
-#median survival time
+#The result shows that patients with local radiation had better median survival time
 plot(surv_bylocal,col=c('red','blue'), 
      xlab='weeks after procedure',ylab='survival')
-#The red line denotes whole-brain radiation 
-#and the blue line represents local radiation
+#The red line denotes whole-brain radiation and the blue line represents local radiation
 #Seems that local radiation leads to better survival
 
-#Use Log rank test to confirm, state the hypothesis:
+#Using Log rank test to confirm, state the hypothesis:
 #H_0: same survival in each group (local v whole-brain radiation)
 #H_A: different survival in the two groups
 survdiff(surv~local)
@@ -35,13 +31,11 @@ survdiff(surv~local)
 
 #previous exposure to nitrosoureas
 surv_bynitro <- survfit(surv~nitro)
-plot(surv_bynitro,col=c('red','blue'), 
-     xlab='weeks after procedure',ylab='survival')
-#The red line denotes no exposure to nitrosoureas
-#and the blue line represents having previous exposure to nitrosoureas 
+plot(surv_bynitro,col=c('red','blue'), xlab='weeks after procedure',ylab='survival')
+#The red line denotes no exposure to nitrosoureas and the blue line represents having previous exposure to nitrosoureas 
 #Seems that no exposure group leads to better survival
 
-#Use Log rank test to confirm, state the hypothesis:
+#Using Log rank test to confirm, state the hypothesis:
 #H_0: same survival in each group (new treatment vs standard of care)
 #H_A: different survival in the two groups
 survdiff(surv~nitro)
@@ -69,7 +63,7 @@ step(m_full)
 cox.zph(m_full)
 #There does not appear to be any major cause for concern
 #regarding the proportional hazards assumption
-#Only 'resect75 and 'male' may need to be stratified
+#Only 'resect75' and 'male' may need to be stratified
 m_strat <- coxph(formula=Surv(weeks,event)~local+treat+
                    strata(resect75)+age+interval+karn+race+strata(male)+nitro+
                    as.factor(path)+grade,data=tumourC)
